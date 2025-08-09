@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4: Kanzlei-Fitness-Check</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * WICHTIG: Die hier definierten Stile sind für die korrekte Darstellung im iframe
+         *
+         * Der Wrapper stellt sicher, dass der dunkelblaue Hintergrund (wie im Original)
+         * auch in der eingebetteten Version korrekt angezeigt wird.
+         * Der iframe selbst sollte eine Breite von 100% haben, um responsive zu sein.
+         */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2C3E50;
+        }
+        .nav-link.active {
+            border-bottom: 2px solid #3498db;
+            color: #3498db;
+        }
+        .content-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+        .accent-color {
+            color: #3498db;
+        }
+        .accent-bg {
+            background-color: #3498db;
+        }
+        h1, h2, h3 {
+            color: #1f2937;
+        }
+        p {
+            color: #4b5563;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Haupt-Wrapper für den gesamten Inhalt, um ihn besser einbetten zu können -->
+    <div class="bg-[#2C3E50] min-h-screen">
+    
+        <!-- Header & Navigation -->
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+            <div class="container mx-auto px-4 md:px-8 lg:px-16 flex justify-between items-center py-4">
+                <h1 class="text-2xl font-bold">Modul 4: Kanzlei-Fitness-Check</h1>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#intro" class="nav-link font-medium hover:text-blue-500 transition">Start</a>
+                    <a href="#mindest-stundensatz" class="nav-link font-medium hover:text-blue-500 transition">Mindest-Stundensatz</a>
+                    <a href="#mandanten-check" class="nav-link font-medium hover:text-blue-500 transition">Mandanten-Check</a>
+                    <a href="#analyse" class="nav-link font-medium hover:text-blue-500 transition">Analyse</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 md:px-8 lg:px-16 py-12 space-y-16">
+
+            <!-- Intro Section -->
+            <section id="intro" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center content-card p-6 md:p-10 rounded-xl shadow-lg">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4">Standortbestimmung statt Bauchgefühl</h2>
+                    <p class="text-lg">In der komplexen Welt der Steuerberatung ist eine präzise Standortbestimmung essenziell. Ähnlich einem Bergsteiger, der seine Position überprüft, sollten Sie als Kanzleiinhaber regelmäßig Ihre Lage analysieren. Dieser "Fitness-Check" liefert Ihnen tiefe Einblicke in die **Wirtschaftlichkeit, Effizienz und Zukunftsfähigkeit** Ihrer Kanzlei, untermauert durch Zahlen und Daten.</p>
+                    <p class="mt-4">Entlarven Sie Mythen, entdecken Sie verborgene Potenziale und machen Sie Ihre Honorarstrategie wasserdicht. Beginnen Sie jetzt mit dem Fitness-Check Ihrer Kanzlei.</p>
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-md">
+                    <!-- HIER KÖNNEN SIE IHR EIGENES BILD EINFÜGEN -->
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2161425191/settings_images/63c10ac-ddfb-ce72-8087-18ec852ebcc7_3e2513e1-30f8-47e1-86f5-eec5667d1ef4.jpg" alt="Eine Gruppe von Fachleuten arbeitet gemeinsam in einem modernen Büro.">
+                </div>
+            </section>
+
+            <!-- Mindest-Stundensatz Section -->
+            <section id="mindest-stundensatz" class="space-y-6 content-card p-6 md:p-10 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 text-center">Berechnung des Mindest-Stundensatzes</h2>
+                
+                <div class="p-6 border rounded-lg bg-gray-50 max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-semibold mb-4">Schritt 1: Selbstkosten-Stundensatz</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="anzahl_ma" class="block text-sm font-medium text-gray-700">Anzahl Mitarbeiter (Vollzeitäquivalente)</label>
+                            <input type="number" id="anzahl_ma" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="5">
+                        </div>
+                        <div>
+                            <label for="personalkosten_ma" class="block text-sm font-medium text-gray-700">Jährliche Personalkosten pro MA (€)</label>
+                            <input type="number" id="personalkosten_ma" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="75000">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 col-span-1 md:col-span-2">
+                            <div>
+                                <label for="wochenstunden" class="block text-sm font-medium text-gray-700">Wochenstunden</label>
+                                <input type="number" id="wochenstunden" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="40">
+                            </div>
+                            <div>
+                                <label for="urlaub" class="block text-sm font-medium text-gray-700">Urlaub (Tage)</label>
+                                <input type="number" id="urlaub" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="30">
+                            </div>
+                            <div>
+                                <label for="krankheit" class="block text-sm font-medium text-gray-700">Krankheit (Tage)</label>
+                                <input type="number" id="krankheit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="15">
+                            </div>
+                            <div>
+                                <label for="fortbildung" class="block text-sm font-medium text-gray-700">Fortbildung/Interne Projekte (Tage)</label>
+                                <input type="number" id="fortbildung" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="30">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="produktivstunden_display" class="mt-4 text-center text-sm font-bold text-gray-600"></div>
+                    <div id="resultSelbstkosten" class="mt-2 text-center text-xl font-extrabold text-blue-600"></div>
+                </div>
+
+                <div class="p-6 border rounded-lg bg-gray-50 max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-semibold mb-4">Schritt 2: Gemeinkosten-Aufschlag</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="summe_gemeinkosten" class="block text-sm font-medium text-gray-700">Summe Gemeinkosten pro Jahr (€)</label>
+                            <input type="number" id="summe_gemeinkosten" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="350000">
+                        </div>
+                    </div>
+                    <div id="resultGemeinkostenAufschlag" class="mt-4 text-center text-xl font-extrabold text-blue-600"></div>
+                </div>
+                
+                <div class="p-6 border rounded-lg bg-gray-50 max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-semibold mb-4">Schritt 3: Gewinnaufschlag</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="gewinnaufschlag_prozent" class="block text-sm font-medium text-gray-700">Gewinnaufschlag auf Kostenbasis (%)</label>
+                            <input type="number" id="gewinnaufschlag_prozent" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="10">
+                        </div>
+                    </div>
+                    <div id="resultGewinnaufschlag" class="mt-4 text-center text-xl font-extrabold text-blue-600"></div>
+                </div>
+
+                <div class="p-6 border rounded-lg bg-blue-50 max-w-4xl mx-auto">
+                     <h3 class="text-2xl font-semibold mb-4 text-center">Ihr Mindest-Stundensatz</h3>
+                     <div id="resultMindestStundensatz" class="mt-4 text-center text-4xl font-extrabold accent-color"></div>
+                </div>
+            </section>
+            
+            <!-- Mandanten-Fitnesscheck Section -->
+            <section id="mandanten-check" class="space-y-6 content-card p-6 md:p-10 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2">Der Mandanten-Fitnesscheck</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-lg">Mit dem Wissen um Ihren **Mindest-Stundensatz** können Sie Mandate nicht nur nach Sympathie beurteilen, sondern nach ihrer tatsächlichen Wirtschaftlichkeit. Dieses Werkzeug hilft Ihnen zu überprüfen, ob Ihre Mandate ihre eigenen Kosten decken und einen Beitrag zum wirtschaftlichen Erfolg Ihrer Kanzlei leisten.</p>
+                        <div class="bg-gray-100 p-6 rounded-lg mt-6">
+                            <p class="font-semibold text-lg">Formel:</p>
+                            <p class="mt-2 text-xl font-bold accent-color">Honorar - (Aufgewendete Stunden * Mindest-Stundensatz)</p>
+                        </div>
+                    </div>
+                     <div>
+                         <h3 class="text-2xl font-semibold mb-4">Interaktiver Rechner: Mandatsrentabilität</h3>
+                         <div class="p-6 border rounded-lg bg-gray-50">
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label for="honorar_mandat" class="block text-sm font-medium text-gray-700">Erzieltes Honorar (€)</label>
+                                    <input type="number" id="honorar_mandat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="5000">
+                                </div>
+                                <div>
+                                    <label for="stunden_mandat" class="block text-sm font-medium text-gray-700">Aufgewendete Stunden</label>
+                                    <input type="number" id="stunden_mandat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" value="50">
+                                </div>
+                                <div>
+                                    <label for="mindest_stundensatz_input" class="block text-sm font-medium text-gray-700">Ihr Mindest-Stundensatz (€)</label>
+                                    <input type="number" id="mindest_stundensatz_input" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" readonly>
+                                </div>
+                            </div>
+                            <button id="calculateMandant" class="mt-6 w-full accent-bg text-white font-bold py-2.5 px-4 rounded-md hover:bg-blue-600 transition">Rentabilität prüfen</button>
+                            <button id="generateAnalysis" class="mt-4 w-full bg-slate-800 text-white font-bold py-2.5 px-4 rounded-md hover:bg-slate-700 transition">Profitabilitäts-Analyse mit KI ✨</button>
+                            <div id="resultMandant" class="mt-4 text-center text-2xl font-extrabold"></div>
+                            <div id="aiAnalysisResult" class="mt-6 p-4 rounded-lg bg-blue-50 text-gray-800 text-sm italic"></div>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <!-- Analysis Section with Chart -->
+            <section id="analyse" class="space-y-6 content-card p-6 md:p-10 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 text-center">Vom Wissen zum Handeln</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-lg">Wenn Sie Ihre Kennzahlen kennen, haben Sie die Grundlage für eine erfolgreiche Strategie. Diese Zahlen ermöglichen es Ihnen, proaktiv zu handeln und die Zukunft Ihrer Kanzlei zu gestalten.</p>
+                        <ul class="list-disc list-inside mt-4 space-y-2">
+                            <li><span class="font-semibold">Honorarstrategie:</span> Legen Sie Honorare fest, die Ihre Kosten decken und Gewinne erzielen.</li>
+                            <li><span class="font-semibold">Mandantenprofitabilität:</span> Identifizieren Sie Mandate, die nicht kostendeckend sind, und handeln Sie proaktiv.</li>
+                            <li><span class="font-semibold">Prozessoptimierung:</span> Finden Sie Wege, um effizienter zu werden und Kosten zu senken.</li>
+                            <li><span class="font-semibold">Grundlage für Wachstum:</span> Treffen Sie informierte Entscheidungen über Investitionen und Expansion.</li>
+                        </ul>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="costDistributionChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // --- DATA & STATE MANAGEMENT ---
+            let calculatedValues = {
+                produktivstunden_pro_ma: 0,
+                produktivstunden_total: 0,
+                selbstkosten: 0,
+                gemeinkosten_aufschlag: 0,
+                gewinnaufschlag: 0,
+                mindest_stundensatz: 0
+            };
+
+            // --- UI ELEMENT BINDING ---
+            const inputs = {
+                anzahl_ma: document.getElementById('anzahl_ma'),
+                personalkosten_ma: document.getElementById('personalkosten_ma'),
+                wochenstunden: document.getElementById('wochenstunden'),
+                urlaub: document.getElementById('urlaub'),
+                krankheit: document.getElementById('krankheit'),
+                fortbildung: document.getElementById('fortbildung'),
+                summe_gemeinkosten: document.getElementById('summe_gemeinkosten'),
+                gewinnaufschlag_prozent: document.getElementById('gewinnaufschlag_prozent'),
+                honorar_mandat: document.getElementById('honorar_mandat'),
+                stunden_mandat: document.getElementById('stunden_mandat')
+            };
+
+            const displays = {
+                produktivstunden: document.getElementById('produktivstunden_display'),
+                resultSelbstkosten: document.getElementById('resultSelbstkosten'),
+                resultGemeinkostenAufschlag: document.getElementById('resultGemeinkostenAufschlag'),
+                resultGewinnaufschlag: document.getElementById('resultGewinnaufschlag'),
+                resultMindestStundensatz: document.getElementById('resultMindestStundensatz'),
+                mindest_stundensatz_input: document.getElementById('mindest_stundensatz_input'),
+                resultMandant: document.getElementById('resultMandant'),
+                aiAnalysisResult: document.getElementById('aiAnalysisResult'),
+            };
+
+            const buttons = {
+                calculateMandant: document.getElementById('calculateMandant'),
+                generateAnalysis: document.getElementById('generateAnalysis')
+            };
+            
+            // --- CALCULATOR LOGIC ---
+            function calculateProduktivstunden() {
+                const wochenstunden = parseFloat(inputs.wochenstunden.value) || 0;
+                const urlaubstage = parseFloat(inputs.urlaub.value) || 0;
+                const krankheitstage = parseFloat(inputs.krankheit.value) || 0;
+                const fortbildungstage = parseFloat(inputs.fortbildung.value) || 0;
+                const anzahl_ma = parseFloat(inputs.anzahl_ma.value) || 0;
+                
+                const arbeitstage_jahr = 260; // 52 Wochen * 5 Tage
+                
+                const nicht_produktive_tage = urlaubstage + krankheitstage + fortbildungstage;
+                const produktive_tage_pro_ma = Math.max(0, arbeitstage_jahr - nicht_produktive_tage);
+                const produktivstunden_pro_ma = (produktive_tage_pro_ma * wochenstunden / 5).toFixed(0);
+                const produktivstunden_total = produktivstunden_pro_ma * anzahl_ma;
+
+                calculatedValues.produktivstunden_pro_ma = parseFloat(produktivstunden_pro_ma);
+                calculatedValues.produktivstunden_total = parseFloat(produktivstunden_total);
+                displays.produktivstunden.innerHTML = `Produktiv nutzbare Stunden pro MA: **${produktivstunden_pro_ma} h**. Gesamt: **${produktivstunden_total} h**`;
+            }
+
+            function calculateSelbstkosten() {
+                const pk_ma = parseFloat(inputs.personalkosten_ma.value) || 0;
+                const ps_ma = calculatedValues.produktivstunden_pro_ma;
+                if (ps_ma > 0) {
+                    const result = (pk_ma / ps_ma).toFixed(2);
+                    calculatedValues.selbstkosten = parseFloat(result);
+                    displays.resultSelbstkosten.innerHTML = `Selbstkosten-Stundensatz: **${result} €/h**`;
+                } else {
+                    displays.resultSelbstkosten.innerHTML = 'Ungültige Eingabe';
+                    calculatedValues.selbstkosten = 0;
+                }
+            }
+            
+            function calculateGemeinkostenAufschlag() {
+                const summe_gk = parseFloat(inputs.summe_gemeinkosten.value) || 0;
+                const summe_ps = calculatedValues.produktivstunden_total;
+                if (summe_ps > 0) {
+                    const result = (summe_gk / summe_ps).toFixed(2);
+                    calculatedValues.gemeinkosten_aufschlag = parseFloat(result);
+                    displays.resultGemeinkostenAufschlag.innerHTML = `Gemeinkosten-Aufschlag: **${result} €/h**`;
+                } else {
+                    displays.resultGemeinkostenAufschlag.innerHTML = 'Ungültige Eingabe';
+                    calculatedValues.gemeinkosten_aufschlag = 0;
+                }
+            }
+
+            function calculateGewinnaufschlag() {
+                const prozent = parseFloat(inputs.gewinnaufschlag_prozent.value) || 0;
+                const selbstkosten = calculatedValues.selbstkosten;
+                const gemeinkosten = calculatedValues.gemeinkosten_aufschlag;
+
+                if (prozent > 0) {
+                    // Calculate based on total costs (SK + GK)
+                    const result = ((selbstkosten + gemeinkosten) * (prozent / 100)).toFixed(2);
+                    calculatedValues.gewinnaufschlag = parseFloat(result);
+                    displays.resultGewinnaufschlag.innerHTML = `Gewinnaufschlag: **${result} €/h**`;
+                } else {
+                    displays.resultGewinnaufschlag.innerHTML = 'Kein Gewinnaufschlag';
+                    calculatedValues.gewinnaufschlag = 0;
+                }
+            }
+            
+            function calculateMindestStundensatz() {
+                const sk = calculatedValues.selbstkosten;
+                const gka = calculatedValues.gemeinkosten_aufschlag;
+                const ga = calculatedValues.gewinnaufschlag;
+
+                const result = (sk + gka + ga).toFixed(2);
+                calculatedValues.mindest_stundensatz = parseFloat(result);
+                displays.resultMindestStundensatz.innerHTML = `**${result} €/h**`;
+                displays.mindest_stundensatz_input.value = result;
+            }
+
+            function calculateMandantProfit() {
+                const honorar = parseFloat(inputs.honorar_mandat.value) || 0;
+                const stunden = parseFloat(inputs.stunden_mandat.value) || 0;
+                const mindest_stundensatz = calculatedValues.mindest_stundensatz;
+                
+                const kosten = stunden * mindest_stundensatz;
+                const profit = honorar - kosten;
+
+                let text = `Ergebnis: `;
+                if (profit > 0) {
+                    text += `<span class="text-green-600 font-bold">${profit.toFixed(2)} € Gewinn</span>`;
+                } else if (profit < 0) {
+                    text += `<span class="text-red-600 font-bold">${profit.toFixed(2)} € Verlust</span>`;
+                } else {
+                    text += `<span class="font-bold">0,00 € (Break-Even)</span>`;
+                }
+                displays.resultMandant.innerHTML = text;
+                return profit;
+            }
+
+            // --- GEMINI API INTEGRATION ---
+            async function generateAiAnalysis() {
+                displays.aiAnalysisResult.innerHTML = `<div class="flex items-center space-x-2"><svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Analysiere...</span></div>`;
+                
+                const honorar = parseFloat(inputs.honorar_mandat.value) || 0;
+                const stunden = parseFloat(inputs.stunden_mandat.value) || 0;
+                const mindest_stundensatz = calculatedValues.mindest_stundensatz;
+                const profit = (honorar - (stunden * mindest_stundensatz)).toFixed(2);
+                
+                const prompt = `Du bist ein erfahrener Unternehmensberater für Steuerkanzleien. Basierend auf den folgenden Daten, erstelle eine kurze, prägnante Analyse, warum ein Mandat profitabel oder unrentabel sein könnte, und gib 3-4 konkrete Handlungsempfehlungen.
+                
+                Daten:
+                Erzieltes Honorar: ${honorar} €
+                Aufgewendete Stunden: ${stunden}
+                Mindest-Stundensatz: ${mindest_stundensatz} €/h
+                Ergebnis: ${profit} €
+                
+                Die Analyse soll die Ursachen beleuchten und 3-4 praxisnahe Tipps geben. Nutze eine professionelle, aber leicht verständliche Sprache.`;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        displays.aiAnalysisResult.innerHTML = `<p class="whitespace-pre-line">${text}</p>`;
+                    } else {
+                        displays.aiAnalysisResult.innerHTML = `<p class="text-red-500">Fehler bei der Analyse. Bitte versuchen Sie es erneut.</p>`;
+                    }
+                } catch (error) {
+                    console.error('Gemini API Error:', error);
+                    displays.aiAnalysisResult.innerHTML = `<p class="text-red-500">Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.</p>`;
+                }
+            }
+
+            // --- EVENT LISTENERS ---
+            function updateAllCalculations() {
+                calculateProduktivstunden();
+                calculateSelbstkosten();
+                calculateGemeinkostenAufschlag();
+                calculateGewinnaufschlag();
+                calculateMindestStundensatz();
+                calculateMandantProfit();
+                updateChart();
+            }
+
+            Object.values(inputs).forEach(input => {
+                input.addEventListener('input', updateAllCalculations);
+            });
+            
+            buttons.generateAnalysis.addEventListener('click', generateAiAnalysis);
+
+
+            // --- CHART.JS VISUALIZATION ---
+            let costChart;
+
+            function updateChart() {
+                const sk = calculatedValues.selbstkosten;
+                const gka = calculatedValues.gemeinkosten_aufschlag;
+                const ga = calculatedValues.gewinnaufschlag;
+                
+                if (costChart) {
+                    costChart.data.datasets[0].data = [sk, gka, ga];
+                    costChart.update();
+                } else {
+                    const ctx = document.getElementById('costDistributionChart').getContext('2d');
+                    costChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Selbstkostenanteil', 'Gemeinkosten-Aufschlag', 'Gewinnaufschlag'],
+                            datasets: [{
+                                data: [sk, gka, ga],
+                                backgroundColor: [
+                                    '#3498db',
+                                    '#2c3e50',
+                                    '#16a085'
+                                ],
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        color: '#1f2937'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Verteilung der Kosten und Gewinnmarge pro Stunde',
+                                    font: { size: 16 }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.parsed;
+                                            return `${label}: ${value.toFixed(2)} €/h`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // --- PAGE NAVIGATION ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            function updateNav() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.href.includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateNav);
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Initial state
+            updateAllCalculations();
+            updateNav();
+        });
+    </script>
+</body>
+</html>
